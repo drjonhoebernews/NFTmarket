@@ -14,6 +14,8 @@ from pathlib import Path
 from datetime import timedelta
 
 from django.conf import settings
+from datetime import timedelta
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -96,7 +98,7 @@ DATABASES = {
          'NAME': 'nft',
          'USER': 'nft',
          'PASSWORD': '2238dr',
-         'HOST': 'localhost',
+         'HOST': 'api.cmapi.com.tr',
          'PORT': '5432',
      }
  }

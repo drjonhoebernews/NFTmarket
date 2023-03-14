@@ -1,8 +1,8 @@
 import json
 import uuid
 from datetime import date
-
 from django.contrib.auth.models import User
+import requests
 from django.db import models
 from django.utils.text import slugify
 
@@ -128,6 +128,20 @@ class Currency(models.Model):
             {'name': 'wETH', 'symbol': 'wETH', 'decimals': '18', 'contract': '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'},
             {'name': 'PRIOR', 'symbol': 'PRT', 'decimals': '18', 'contract': 'TAwdgYhg3ar64yzPCNpgo5WrQ8rT3R2gsp'},
         ]
+
+    @classmethod
+    def update_currency_rates(cls):
+        currencies = cls.objects.all()
+        for currency in currencies:
+            # CoinGecko API'den kripto para biriminin USD, EUR ve TRY fiyatlarını al
+            url = f'https://api.coingecko.com/api/v3/simple/price?ids={currency.symbol.lower()}&vs_currencies=usd%2Ceur%2Ctry'
+            response = requests.get(url)
+            rates = response.json()[currency.symbol.lower()]
+            # USD, EUR ve TRY fiyatlarını Currency modelindeki ilgili alanlara kaydet
+            currency.usd_value = rates['usd']
+            currency.eur_value = rates['eur']
+            currency.try_value = rates['try']
+            currency.save()
 
 
 class SaleType(models.Model):
