@@ -45,6 +45,7 @@ class Collection(models.Model):
 class Property(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True, editable=False)
+    is_active = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):
         if not self.id:
