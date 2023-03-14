@@ -190,6 +190,7 @@ class NFT(models.Model):
     level = models.CharField(max_length=20, default='beginner')
     language = models.CharField(max_length=50, default='english')
     rating = models.FloatField(default=0.0)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.title
