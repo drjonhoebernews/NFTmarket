@@ -1,9 +1,15 @@
 from rest_framework import serializers
 from .models import NFT, Category, User, Ownership, Collection, Bid, NFTMedia, Property, Tag, Like, Currency, History, \
-    SaleType
+    SaleType, MediaType
 
 
 class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = '__all__'
+
+
+class CategoryCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = '__all__'
@@ -16,6 +22,12 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class PriceCurrencySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Currency
+        fields = '__all__'
+
+
+class PriceCurrencyCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Currency
         fields = '__all__'
@@ -38,6 +50,14 @@ class CollectionSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class CollectionCreateSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
+    class Meta:
+        model = Collection
+        fields = '__all__'
+
+
 class BidSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     price_currency = PriceCurrencySerializer()
@@ -47,7 +67,21 @@ class BidSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class MediaTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MediaType
+        fields = '__all__'
+
+
 class NFTMediaSerializer(serializers.ModelSerializer):
+    media_type = MediaTypeSerializer()
+
+    class Meta:
+        model = NFTMedia
+        fields = '__all__'
+
+
+class NFTMediaCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = NFTMedia
         fields = '__all__'
@@ -59,7 +93,19 @@ class PropertySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class PropertyCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Property
+        fields = '__all__'
+
+
 class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = '__all__'
+
+
+class TagCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields = '__all__'

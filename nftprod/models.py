@@ -117,7 +117,7 @@ class Currency(models.Model):
     usd_value = models.DecimalField(max_digits=8, decimal_places=2, default=1)
     eur_value = models.DecimalField(max_digits=8, decimal_places=2, default=1)
     try_value = models.DecimalField(max_digits=8, decimal_places=2, default=1)
-
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
@@ -231,6 +231,7 @@ class Bid(models.Model):
     price_amount = models.DecimalField(max_digits=18, decimal_places=16)
     price_currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
     bid_date = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.user.username + ' ' + self.nft.title + ' ' + str(self.price_amount) + ' ' + str(self.bid_date)
