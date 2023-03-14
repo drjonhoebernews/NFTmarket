@@ -11,6 +11,7 @@ class Category(models.Model):
     name = models.CharField(max_length=50)
     slug = models.SlugField(unique=True, editable=False)
     description = models.TextField(null=True, blank=True)
+    is_active = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):
         if not self.id:
@@ -30,6 +31,7 @@ class Collection(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True, editable=False)
     cover = models.FileField(upload_to=get_collection_media_path)
+    is_active = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):
         if not self.id:
@@ -113,6 +115,7 @@ class Currency(models.Model):
     usd_value = models.DecimalField(max_digits=8, decimal_places=2, default=1)
     eur_value = models.DecimalField(max_digits=8, decimal_places=2, default=1)
     try_value = models.DecimalField(max_digits=8, decimal_places=2, default=1)
+
 
     def __str__(self):
         return self.name
