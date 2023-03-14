@@ -96,7 +96,7 @@ DATABASES = {
          'NAME': 'nft',
          'USER': 'nft',
          'PASSWORD': '2238dr',
-         'HOST': 'api.cmapi.com.tr',
+         'HOST': 'localhost',
          'PORT': '5432',
      }
  }
