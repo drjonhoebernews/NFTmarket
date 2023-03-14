@@ -86,4 +86,3 @@ class PriceCurrencyListCreateView(generics.ListCreateAPIView):
             return PriceCurrencySerializer
         elif self.request.method == 'POST':
             return PriceCurrencyCreateSerializer
-
