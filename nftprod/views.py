@@ -1,5 +1,7 @@
+import requests
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from django.http import HttpResponse
 from .models import NFT, Category, Collection, Property, Tag, MediaType, NFTMedia, Currency
 from .serializers import NFTRetrieveSerializer, NFTCreateSerializer, CategorySerializer, CategoryCreateSerializer, \
     CollectionSerializer, CollectionCreateSerializer, PropertySerializer, PropertyCreateSerializer, TagSerializer, \
@@ -86,3 +88,18 @@ class PriceCurrencyListCreateView(generics.ListCreateAPIView):
             return PriceCurrencySerializer
         elif self.request.method == 'POST':
             return PriceCurrencyCreateSerializer
+
+
+def update_currencies(request):
+    currencies = Currency.objects.filter(is_active=True)
+    for currency in currencies:
+        try:
+            response = requests.get(f'https://api.coingecko.com/api/v3/simple/price?ids={currency.name.lower()}&vs_currencies=usd,eur,try')
+            prices = response.json()[currency.name.lower()]
+            currency.usd_value = prices['usd']
+            currency.eur_value = prices['eur']
+            currency.try_value = prices['try']
+            currency.save()
+        except Exception as e:
+            print(f'Error updating {currency.name}: {e}')
+    return HttpResponse('Currencies updated')
